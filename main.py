@@ -2,78 +2,45 @@
 # The goal is to implement a simple ECS, using basic Python,
 # to minimize the learning curve and maximize interoperability.
 
-
 import pyglet
-from pyglet import shapes
+from engine import Engine  # Import the user-facing Engine class
 
-# --- CONSTRAINTS AND CONFIG --- #
-# This section holds the general settings for the pyglet window
+# --- Constants and Configuration ---
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
-WINDOW_TITLE = "Your PyLE Game!"    # Replace with your window name
-#IS_FULLSCREEN = FALSE              # unused
-#IS_BORDERLESS = FALSE              # unused
+WINDOW_TITLE = "My Awesome Game Engine"
 
-# --- Create the Main Window --- #
-# This is the primary surface where all our graphics will be drawn.
-# We pass our configuration constants to create a window of the desired size and title.
-window = pyglet.window.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
-
-# --- Batch Rendering System --- #
-# A batch is a collection of graphical objects that can be drawn all at once.
-# This is much more efficient than drawing each object individually.
-# We will add all our game objects (sprites, shapes, etc.) to this batch.
-main_batch = pyglet.graphics.Batch()
-
-# --- Game Objects --- #
-# Let's create a primitive shape. A simple rectangle.
-# We need to specify its position (x, y), size (width, height), color,
-# and importantly, which batch it belongs to.
-# The window's coordinate system starts at (0, 0) in the bottom-left corner.
-rectangle = shapes.Rectangle(
-    x=WINDOW_WIDTH // 2 - 50,  # Center the rectangle horizontally
-    y=WINDOW_HEIGHT // 2 - 50,  # Center the rectangle vertically
-    width=100,
-    height=100,
-    color=(255, 255, 255),  # White color
-    batch=main_batch  # Add this shape to our main batch
-)
-
-
-# --- Event Handlers --- #
-# Pyglet uses an event-driven model. We use decorators to "listen" for
-# specific events from the window (like drawing, mouse clicks, key presses, etc.).
-
-
-@window.event
-def on_draw():
-    """
-    This function is called by Pyglet automatically whenever the window needs
-    to be redrawn (which happens many times per second). This is the heart
-    of the rendering loop.
-    """
-
-    # 1. Clear the window
-    window.clear()
-
-    # FIXME change so this is not reset every render frame, small but needed
-    # 2. Set a solid background color
-    pyglet.gl.glClearColor(25/255, 135/255, 45/255, 1.0)
-
-    # 3. Draw the batch
-    # This single command tells Pyglet to draw every object that has been
-    # added to the 'main_batch'.
-    main_batch.draw()
-
-
-# --- Main Entry Point for the Engine --- #
+# --- Main Application Setup ---
 if __name__ == '__main__':
-    # This command starts the Pyglet application event loop.
-    # It will run continuously, processing system events and calling our
-    # event handlers (like on_draw) until the window is closed.
-    # This is the "engine" that keeps our game running.
+    # 1. Create the main window
+    window = pyglet.window.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+
+    # 2. Create an instance of the user's game engine
+    game_engine = Engine(WINDOW_WIDTH, WINDOW_HEIGHT)
+
+    # 3. Define the update function for the game loop
+    def update(dt):
+        """
+        This function is called by Pyglet's clock at a regular interval.
+        'dt' is the delta-time, the time since the last update.
+        """
+        game_engine.update(dt)
+
+    # 4. Schedule the update function
+    pyglet.clock.schedule_interval(update, 1/60.0)  # Aim for 60 updates per second
+
+    # 5. Set up the on_draw event handler
+    @window.event
+    def on_draw():
+        """
+        This is called by Pyglet whenever the window needs to be redrawn.
+        """
+        window.clear()
+        pyglet.gl.glClearColor(25/255, 35/255, 45/255, 1.0)
+        game_engine.draw()
+
+    # 6. Run the Pyglet application
     pyglet.app.run()
 
-    print("Bye!")
-
+    print("Window closed. Exiting application.")
 
