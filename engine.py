@@ -2,8 +2,8 @@ import pyglet
 from pyglet import shapes
 
 # Import the ECS core components
-from ecs.world import World
-from ecs.components import Position, Renderable
+from engine_core.world import World
+from engine_core.components import Position, Renderable
 
 # --- Game-Specific Systems ---
 # Systems contain the logic of your game. They operate on entities

@@ -31,3 +31,9 @@ class Renderable:
     This holds the actual pyglet shape object that will be drawn.
     """
     shape: shapes.ShapeBase  # The pyglet shape object (e.g., Rectangle, Circle)
+
+
+@dataclass
+class PlayerControlled:
+    """A tag component to identify the player entity. It has no data."""
+    pass

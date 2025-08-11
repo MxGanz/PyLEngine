@@ -1,0 +1,22 @@
+{
+  "name": "Player",
+  "components": {
+    "Position": {
+      "x": 640,
+      "y": 360
+    },
+    "Velocity": {
+      "dx": 0,
+      "dy": 0
+    },
+    "Renderable": {
+      "shape_type": "Rectangle",
+      "properties": {
+        "width": 50,
+        "height": 50,
+        "color": [255, 255, 255]
+      }
+    },
+    "PlayerControlled": {}
+  }
+}
