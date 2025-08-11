@@ -86,6 +86,7 @@
     <servers />
   </component>
   <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.comp" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.entity" />
   </component>
 </project>
